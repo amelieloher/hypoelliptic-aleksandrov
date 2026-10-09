@@ -1,0 +1,68 @@
+cff-version: 1.2.0
+message: "If you use this formalisation, please cite it as below."
+title: "hypoelliptic-aleksandrov: a Lean 4 formalisation of kinetic Aleksandrov estimates"
+abstract: >-
+  A machine-checked Lean 4 / Mathlib formalisation of Aleksandrov maximum
+  principles for kinetic equations in non-divergence form with measurable,
+  uniformly elliptic diffusion in the velocity: for coefficients depending on
+  time and velocity (every source exponent p > 2d+1), for autonomous
+  coefficients in one space dimension (every p above a threshold below 4 that
+  depends only on the ellipticity ratio, with a counterexample below it), and
+  for coefficients depending on time, position and velocity; together with the
+  resulting interior Hölder estimates, the parabolic Aleksandrov estimate of
+  Krylov and the Harnack inequality of Krylov and Safonov.
+  The development contains no sorry and no custom axiom.
+type: software
+version: "1.0.0"
+authors:
+  - family-names: Loher
+    given-names: Amélie
+    affiliation: "All Souls College, University of Oxford"
+keywords:
+  - Lean
+  - Mathlib
+  - formal verification
+  - kinetic equations
+  - Aleksandrov–Bakelman–Pucci estimate
+  - Krylov–Safonov theory
+  - hypoelliptic equations
+  - partial differential equations
+license: Apache-2.0
+repository-code: "https://github.com/amelieloher/hypoelliptic-aleksandrov"
+references:
+  - type: article
+    title: "From Döblin to Aleksandrov"
+    authors:
+      - family-names: Loher
+        given-names: Amélie
+      - family-names: Mooney
+        given-names: Connor
+      - family-names: Mouhot
+        given-names: Clément
+    year: 2026
+    url: "https://amelieloher.github.io/DF-visual-paper/pdf/doeblin-fourier-companion.pdf"
+  - type: article
+    title: "Döblin–Fourier cancellation and kinetic Aleksandrov estimates"
+    authors:
+      - family-names: Loher
+        given-names: Amélie
+      - family-names: Mooney
+        given-names: Connor
+      - family-names: Mouhot
+        given-names: Clément
+    year: 2026
+    identifiers:
+      - type: other
+        value: "arXiv:2610.03083"
+    url: "https://arxiv.org/abs/2610.03083"
+  - type: website
+    title: "We need ABP"
+    url: "https://weneedabp.github.io/kinetic.html"
+  - type: software
+    title: "hoermander-rothschild-stein: a Lean 4 formalization of Hörmander's hypoellipticity theorem and the Rothschild–Stein theory"
+    authors:
+      - family-names: Loher
+        given-names: Amélie
+      - family-names: Armstrong
+        given-names: Scott
+    repository-code: "https://github.com/amelieloher/hoermander-rothschild-stein"

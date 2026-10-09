@@ -1,0 +1,24 @@
+{
+  "challenge_module": "AleksandrovComparators.KineticAleksandrov.Challenge",
+  "solution_module": "AleksandrovComparators.KineticAleksandrov.Solution",
+  "theorem_names": [
+    "KineticAleksandrovChallenge.kinetic_aleksandrov_timeVelocity",
+    "KineticAleksandrovChallenge.kinetic_aleksandrov_timeVelocity_localised",
+    "KineticAleksandrovChallenge.kinetic_holder_timeVelocity",
+    "KineticAleksandrovChallenge.kinetic_aleksandrov_autonomous",
+    "KineticAleksandrovChallenge.kinetic_aleksandrov_autonomous_localised",
+    "KineticAleksandrovChallenge.kinetic_holder_autonomous",
+    "KineticAleksandrovChallenge.kinetic_aleksandrov_autonomous_counterexample",
+    "KineticAleksandrovChallenge.existsUnique_bellmanAdjointExponent",
+    "KineticAleksandrovChallenge.bellmanAdjointExponent_characterization",
+    "KineticAleksandrovChallenge.parabolic_aleksandrov",
+    "KineticAleksandrovChallenge.parabolic_harnack_unit_cylinder"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

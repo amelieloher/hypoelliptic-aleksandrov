@@ -1,0 +1,103 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and check axioms
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - name: Free disk space
+        # The library build needs about 25 GB (Mathlib cache and project build); the runner image
+        # ships with far less free space, so remove preinstalled toolchains this project does not use.
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/boost /usr/local/.ghcup /usr/share/swift
+          sudo docker image prune --all --force >/dev/null || true
+          df -h /
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check Lean source requirements
+        run: python3 scripts/check-lean-sources.py
+      - name: Check for unfinished proofs outside the Challenges
+        run: |
+          if grep -rnwE 'sorry|admit|axiom' --include='*.lean' HypoellipticAleksandrov PDEFoundation HypoellipticAleksandrov.lean AleksandrovComparators/*/Solution.lean \
+              | grep -vE '^[^:]+:[0-9]+:\s*(--|/-|.*-/\s*$)'; then
+            echo "unexpected sorry/admit/axiom" >&2; exit 1
+          fi
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          build: true
+      - name: Print and check axioms of the main theorems
+        run: |
+          cat > "$RUNNER_TEMP/Axioms.lean" <<'LEAN'
+          import HypoellipticAleksandrov.Statements.BellmanExponentWellDefined
+          import HypoellipticAleksandrov.Statements.GreenDensityFullCoefficient
+          import HypoellipticAleksandrov.Statements.HolderAutonomous
+          import HypoellipticAleksandrov.Statements.HolderFullCoefficient
+          import HypoellipticAleksandrov.Statements.HolderTimeVelocity
+          import HypoellipticAleksandrov.Statements.HormanderHypoellipticity
+          import HypoellipticAleksandrov.Statements.KineticAleksandrovAutonomous
+          import HypoellipticAleksandrov.Statements.KineticAleksandrovAutonomousLocalised
+          import HypoellipticAleksandrov.Statements.KineticAleksandrovCounterexample
+          import HypoellipticAleksandrov.Statements.KineticAleksandrovFullCoefficient
+          import HypoellipticAleksandrov.Statements.KineticAleksandrovTimeVelocity
+          import HypoellipticAleksandrov.Statements.KineticAleksandrovTimeVelocityLocalised
+          import HypoellipticAleksandrov.Statements.KineticGrowthLemma
+          import HypoellipticAleksandrov.Statements.KineticHolder
+          import HypoellipticAleksandrov.Statements.KineticInkSpots
+          import HypoellipticAleksandrov.Statements.LiebermanDirichlet
+          import HypoellipticAleksandrov.Statements.ParabolicAleksandrov
+          import HypoellipticAleksandrov.Statements.ParabolicHarnack
+          import HypoellipticAleksandrov.Statements.TerminalEvolution
+          import AleksandrovComparators.FullCoefficient.Solution
+          import AleksandrovComparators.KineticAleksandrov.Solution
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.existsUnique_bellmanAdjointExponent
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.SectionTwo.exists_greenDensity_fullCoefficient
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_autonomous
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_fullCoefficient
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_timeVelocity
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.exists_smooth_aeRepresentative_of_hormander
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous_localised
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous_counterexample
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_fullCoefficient
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_timeVelocity
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_timeVelocity_localised
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.Holder.kinetic_growth_lemma
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_of_aleksandrov
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.Holder.kinetic_crawling_ink_spots
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.exists_isClassicalBackwardDirichletSolution_openEllipsoid_uniqueOn_of_lieberman
+          #print axioms HypoellipticAleksandrov.Parabolic.parabolic_aleksandrov
+          #print axioms HypoellipticAleksandrov.Parabolic.parabolic_harnack_unit_cylinder
+          #print axioms HypoellipticAleksandrov.KineticAleksandrov.exists_terminalEvolution
+          #print axioms FullCoefficientChallenge.kinetic_aleksandrov_fullCoefficient
+          #print axioms FullCoefficientChallenge.kinetic_holder_fullCoefficient
+          #print axioms FullCoefficientChallenge.kinetic_holder_of_aleksandrov
+          #print axioms KineticAleksandrovChallenge.kinetic_aleksandrov_timeVelocity
+          #print axioms KineticAleksandrovChallenge.kinetic_aleksandrov_timeVelocity_localised
+          #print axioms KineticAleksandrovChallenge.kinetic_holder_timeVelocity
+          #print axioms KineticAleksandrovChallenge.kinetic_aleksandrov_autonomous
+          #print axioms KineticAleksandrovChallenge.kinetic_aleksandrov_autonomous_localised
+          #print axioms KineticAleksandrovChallenge.kinetic_holder_autonomous
+          #print axioms KineticAleksandrovChallenge.kinetic_aleksandrov_autonomous_counterexample
+          #print axioms KineticAleksandrovChallenge.existsUnique_bellmanAdjointExponent
+          #print axioms KineticAleksandrovChallenge.bellmanAdjointExponent_characterization
+          #print axioms KineticAleksandrovChallenge.parabolic_aleksandrov
+          #print axioms KineticAleksandrovChallenge.parabolic_harnack_unit_cylinder
+          LEAN
+          lake env lean "$RUNNER_TEMP/Axioms.lean" | tee "$RUNNER_TEMP/axioms.txt"
+          # Lean may wrap long axiom lists over several lines; count on the flattened output.
+          flat=$(tr '\n' ' ' < "$RUNNER_TEMP/axioms.txt" | tr -s ' ')
+          test "$(grep -o "depends on axioms: \[propext, Classical.choice, Quot.sound\]" <<< "$flat" | wc -l)" -eq 33
+          test "$(grep -o "depends on axioms" <<< "$flat" | wc -l)" -eq 33

@@ -1,0 +1,293 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Kinetic Aleksandrov estimates"
+  description: >-
+    A Lean 4 / Mathlib formalisation of Aleksandrov maximum principles for
+    kinetic equations d_t u + v.grad_x u - A : D_v^2 u = f in non-divergence form,
+    with measurable, uniformly elliptic diffusion acting only in the velocity.
+    For coefficients A(t,v) the estimate holds for every source exponent
+    p > 2d+1; for autonomous coefficients a(x,v) in one space dimension for
+    every p above a threshold 1 + beta_*(Lambda/lambda) < 4, where no exponent
+    below 4 works uniformly in the ellipticity ratio; and for general
+    measurable coefficients A(t,x,v) for every p >= 1 + 128 d^2 (Lambda/lambda)^2 / 3.
+    In each case the estimate implies interior Hölder continuity of solutions;
+    for coefficients A(t,x,v) this is the kinetic Krylov–Safonov theorem. The
+    library also proves the parabolic Aleksandrov estimate of Krylov, the
+    parabolic Harnack inequality of Krylov and Safonov, the terminal solution
+    operators of the kinetic equation, and classical Dirichlet solvability on
+    ellipsoidal cylinders. Hörmander's hypoellipticity theorem is taken from
+    the formalisation hoermander-rothschild-stein.
+  authors:
+    - "Amélie Loher"
+  responsible_maintainers:
+    - "Amélie Loher"
+  affiliations:
+    - "Amélie Loher: All Souls College, University of Oxford"
+  license: "Apache-2.0"
+  funding:
+    - "Amélie Loher acknowledges support from the Fondation Sciences Mathématiques de Paris."
+
+classification:
+  arxiv: ["math.AP", "math.PR"]
+  msc2020: ["35K70", "35B50", "35B65", "35Q84", "35H10"]
+
+sources:
+  - title: "From Döblin to Aleksandrov"
+    authors:
+      - "Amélie Loher"
+      - "Connor Mooney"
+      - "Clément Mouhot"
+    type: "paper"
+    location: "https://amelieloher.github.io/DF-visual-paper/pdf/doeblin-fourier-companion.pdf (long version, 2 October 2026)"
+    relationship: "formalizes"
+    note: "Theorems 1.1 and 1.2, Corollary 1.3, Proposition 2.1, Theorems 3.5, 4.1, 9.1, 9.4, 9.6, Corollaries 9.9 and 9.10, Appendix B and Proposition C.1."
+    license: "all rights reserved"
+    author_endorsement: "endorsed"
+  - title: "Döblin–Fourier cancellation and kinetic Aleksandrov estimates"
+    authors:
+      - "Amélie Loher"
+      - "Connor Mooney"
+      - "Clément Mouhot"
+    type: "paper"
+    location: "arXiv:2610.03083"
+    relationship: "formalizes"
+    note: "The announcement of the method; its results are formalised through the full account above."
+    license: "all rights reserved"
+    author_endorsement: "endorsed"
+  - title: "We need ABP"
+    authors: []
+    type: "other"
+    location: "https://weneedabp.github.io/kinetic.html"
+    relationship: "formalizes"
+    note: "The adjoint-smoothing proof of the kinetic Aleksandrov estimate for coefficients A(t,x,v), applied to the Green measure of the terminal solution operators, with explicit exponent."
+    license: "all rights reserved"
+    author_endorsement: "endorsed"
+  - title: "Hypoelliptic second order differential equations"
+    authors:
+      - "Lars Hörmander"
+    type: "paper"
+    location: "Acta Mathematica 119 (1967), 147-171"
+    relationship: "background"
+    note: "Theorem 1.1, taken from the formalisation hoermander-rothschild-stein."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "Sequences of convex functions and estimates of the maximum of the solution of a parabolic equation"
+    authors:
+      - "N. V. Krylov"
+    type: "paper"
+    location: "Sibirsk. Mat. Zh. 17 (1976), no. 2, 290-303"
+    relationship: "formalizes"
+    note: "The parabolic Aleksandrov estimate, in the form of the companion paper, Theorem 4.1."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "A certain property of solutions of parabolic equations with measurable coefficients"
+    authors:
+      - "N. V. Krylov"
+      - "M. V. Safonov"
+    type: "paper"
+    location: "Izv. Akad. Nauk SSSR Ser. Mat. 44 (1980), no. 1, 161-175"
+    relationship: "formalizes"
+    note: "The parabolic Harnack inequality, in the unit-cylinder form of the companion paper, Theorem 3.5."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "Second Order Parabolic Differential Equations"
+    authors:
+      - "Gary M. Lieberman"
+    type: "book"
+    location: "World Scientific, 1996"
+    relationship: "formalizes"
+    note: "Theorem 5.14 on ellipsoidal cylinders with smooth data."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+
+status:
+  scope: >-
+    Complete for the results listed in main_results. The kinetic solution class
+    is the classical one of the sources: continuous on the closed cylinder,
+    with continuous time, position-gradient and velocity-Hessian derivatives in
+    the open cylinder, and the equation holding almost everywhere. Viscosity
+    solutions are not covered.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_timeVelocity"
+      file: "HypoellipticAleksandrov/Statements/KineticAleksandrovTimeVelocity.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_timeVelocity_localised"
+      file: "HypoellipticAleksandrov/Statements/KineticAleksandrovTimeVelocityLocalised.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous"
+      file: "HypoellipticAleksandrov/Statements/KineticAleksandrovAutonomous.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous_localised"
+      file: "HypoellipticAleksandrov/Statements/KineticAleksandrovAutonomousLocalised.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.existsUnique_bellmanAdjointExponent"
+      file: "HypoellipticAleksandrov/Statements/BellmanExponentWellDefined.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous_counterexample"
+      file: "HypoellipticAleksandrov/Statements/KineticAleksandrovCounterexample.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_timeVelocity"
+      file: "HypoellipticAleksandrov/Statements/HolderTimeVelocity.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_autonomous"
+      file: "HypoellipticAleksandrov/Statements/HolderAutonomous.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.Parabolic.parabolic_aleksandrov"
+      file: "HypoellipticAleksandrov/Statements/ParabolicAleksandrov.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.Parabolic.parabolic_harnack_unit_cylinder"
+      file: "HypoellipticAleksandrov/Statements/ParabolicHarnack.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/KineticAleksandrov/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_fullCoefficient"
+      file: "HypoellipticAleksandrov/Statements/KineticAleksandrovFullCoefficient.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/FullCoefficient/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_fullCoefficient"
+      file: "HypoellipticAleksandrov/Statements/HolderFullCoefficient.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/FullCoefficient/comparator.json"
+      literature_dependencies: []
+    - declaration: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_of_aleksandrov"
+      file: "HypoellipticAleksandrov/Statements/KineticHolder.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "AleksandrovComparators/FullCoefficient/comparator.json"
+      literature_dependencies: []
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "gpt-6.1-sol"
+        - "claude-opus-5-5"
+        - "claude-sonnet-5-5"
+        - "claude-fable-5-1"
+      framework: >-
+        Codex (GPT-6.1 Sol) and Claude Code (Claude Opus 5.5 coordinating,
+        Claude Sonnet 5.5, Claude Fable 5.1), under the author's supervision.
+      tool_setup: >-
+        Lean 4 and Mathlib v4.35.0-rc2. Every public definition and theorem
+        statement was written first, compared with the sources by an
+        independent model review, and approved by the author before its
+        proof was developed. Verification uses full builds from a clean
+        checkout, axiom checks, and Mathlib-only comparator challenges checked
+        with Lean's comparator and the independent kernel checkers bundled
+        with the toolchain.
+      cost:
+        wall_time: "about one week of development (October 2026) plus release preparation"
+        spend_usd: "not separately tracked (ChatGPT Pro and Claude Max subscriptions)"
+        hardware: "one 8-CPU / 30 GB RAM Linux machine"
+      prompting_notes: >-
+        The author determined the scope and the statements, chose the proof
+        routes, and approved every public statement. For coefficients A(t,x,v)
+        a detailed proof plan following the adjoint-smoothing argument was
+        written and independently reviewed before formalisation. Gaps in the
+        printed proofs were filled by arguments proposed by the models and
+        checked by separate model reviews before they were formalised.
+  spend_usd: "not separately tracked (ChatGPT Pro and Claude Max subscriptions)"
+  notes: >-
+    All Lean code was written by the listed models under the supervision of
+    the author. Every proof is checked by the Lean kernel; the library
+    contains no sorry and no custom axiom. The comparator Challenge files
+    contain one intentional theorem-body placeholder per theorem, proved by the
+    corresponding Solution files.
+
+fidelity:
+  divergences: >-
+    Solutions are classical (continuous on the closed cylinder, with continuous
+    time, position-gradient and velocity-Hessian derivatives inside) and the
+    inequality holds almost everywhere, as in the sources. For coefficients
+    A(t,x,v) the source exponent p >= 1 + 128 d^2 (Lambda/lambda)^2 / 3 is the
+    one produced by the proof; the source states the estimate for some p
+    depending on d, lambda, Lambda. The parabolic Harnack inequality is the
+    unit-cylinder form used in the companion paper. Where the sources omit
+    steps, the omitted arguments are supplied in the formalisation.
+
+review:
+  status: "author-verified"
+  reviewers:
+    - "Amélie Loher"
+  notes: >-
+    Lean checks each proof against its formal statement. The author reviewed
+    that the statements are the intended theorems. Each public statement was
+    compared with the sources by independent model reviews before its proof
+    was accepted, and the comparator declarations are checked mechanically.
+    This is not external peer review.
+
+alignment:
+  - source: "From Döblin to Aleksandrov, Theorem 1.1"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_timeVelocity"
+    note: "Coefficients A(t,v); every p > 2d+1; constant depending only on d, lambda, Lambda, p."
+  - source: "From Döblin to Aleksandrov, Corollary 1.3 (for Theorem 1.1)"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_timeVelocity_localised"
+    note: "The source norm restricted to the set where the solution is positive."
+  - source: "From Döblin to Aleksandrov, Theorem 1.2"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous"
+    note: "Autonomous coefficients a(x,v), d = 1; every p > 1 + beta_*(Lambda/lambda)."
+  - source: "From Döblin to Aleksandrov, Corollary 1.3 (for Theorem 1.2)"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous_localised"
+    note: "The localised form for autonomous coefficients."
+  - source: "From Döblin to Aleksandrov, Appendix B"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.existsUnique_bellmanAdjointExponent"
+    note: "Existence and uniqueness of the homogeneous adjoint exponent beta_*."
+  - source: "From Döblin to Aleksandrov, Proposition C.1"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_autonomous_counterexample"
+    note: "No threshold below 4d works uniformly in the ellipticity ratio."
+  - source: "From Döblin to Aleksandrov, Theorem 9.1"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_of_aleksandrov"
+    note: "An Aleksandrov principle with data (p, C_A) implies interior Hölder continuity, for measurable A(t,x,v)."
+  - source: "From Döblin to Aleksandrov, Corollaries 9.9 and 9.10"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_timeVelocity"
+    note: "Hölder continuity for coefficients A(t,v); the autonomous case is kinetic_holder_autonomous."
+  - source: "From Döblin to Aleksandrov, Theorems 4.1 and 3.5"
+    lean: "HypoellipticAleksandrov.Parabolic.parabolic_aleksandrov"
+    note: "Krylov's parabolic Aleksandrov estimate; the Krylov–Safonov Harnack inequality is parabolic_harnack_unit_cylinder."
+  - source: "We need ABP (https://weneedabp.github.io/kinetic.html)"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_aleksandrov_fullCoefficient"
+    note: "Measurable coefficients A(t,x,v); explicit exponent p >= 1 + 128 d^2 (Lambda/lambda)^2 / 3; localised source."
+  - source: "Kinetic Krylov–Safonov Hölder estimate"
+    lean: "HypoellipticAleksandrov.KineticAleksandrov.kinetic_holder_fullCoefficient"
+    note: "Interior Hölder continuity for measurable A(t,x,v), from the estimate above and Theorem 9.1."
+
+acknowledgements: >-
+  Amélie Loher acknowledges support from the Fondation Sciences Mathématiques
+  de Paris. Built on Lean 4, Mathlib and
+  Lake, and checked with leanprover/comparator.

@@ -1,0 +1,16 @@
+{
+  "challenge_module": "AleksandrovComparators.FullCoefficient.Challenge",
+  "solution_module": "AleksandrovComparators.FullCoefficient.Solution",
+  "theorem_names": [
+    "FullCoefficientChallenge.kinetic_aleksandrov_fullCoefficient",
+    "FullCoefficientChallenge.kinetic_holder_fullCoefficient",
+    "FullCoefficientChallenge.kinetic_holder_of_aleksandrov"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}
